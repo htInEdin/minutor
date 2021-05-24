@@ -24,12 +24,15 @@ public:
   QWidget &getWidget() override;
   bool initSearch() override;
   SearchPluginI::ResultListT searchChunk(Chunk &chunk) override;
+  QString getSearchedFor() { return searchedFor; }
 
 private:
   Ui::SearchBlockPluginWidget *ui;
 
   SearchTextWidget* stw_blockId;
   SearchTextWidget* stw_blockName;
+
+  QString searchedFor;
 
   std::set<quint32> m_searchForIds;
 };

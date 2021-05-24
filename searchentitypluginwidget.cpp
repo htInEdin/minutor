@@ -12,6 +12,8 @@ SearchEntityPluginWidget::SearchEntityPluginWidget()
 {
   ui->setupUi(this);
 
+  searchedFor = QString("[not set]");
+
   ui->verticalLayout->addWidget(stw_sells = new SearchTextWidget("sells"));
   ui->verticalLayout->addWidget(stw_buys = new SearchTextWidget("buys"));
   ui->verticalLayout->addWidget(stw_entityType = new SearchTextWidget("entity type"));

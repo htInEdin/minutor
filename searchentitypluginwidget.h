@@ -22,6 +22,8 @@ public:
 
   QWidget &getWidget() override;
 
+  QString getSearchedFor() { return searchedFor; }
+
   SearchPluginI::ResultListT searchChunk(Chunk &chunk) override;
 
 private:
@@ -33,8 +35,11 @@ private:
   SearchTextWidget* stw_villagerType;
   SearchTextWidget* stw_special;
 
+  QString searchedFor;
+
   bool evaluateEntity(EntityEvaluator &entity);
   bool findBuyOrSell(EntityEvaluator& entity, SearchTextWidget &searchText, int index);
 };
+
 
 #endif // SEARCHENTITYPLUGINWIDGET_H

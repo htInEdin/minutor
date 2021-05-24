@@ -167,7 +167,11 @@ void SearchChunksWidget::cancelSearch()
 
   ui->pb_search->setText("Search");
 
-  ui->resultList->searchDone();
+  ui->resultList->searchDone(searchPlugin->getSearchedFor(),
+			     ui->sb_radius->value(),
+			     ui->check_range_y->isChecked(),
+			     ui->sb_y_start->value(),
+			     ui->sb_y_end->value());
 
   currentSearch.reset();
 }

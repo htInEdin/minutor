@@ -13,6 +13,8 @@ SearchBlockPluginWidget::SearchBlockPluginWidget(QWidget* parent)
 {
   ui->setupUi(this);
 
+  searchedFor = QString("[not set]");
+
   auto idList = BlockIdentifier::Instance().getKnownIds();
 
   QStringList nameList;
@@ -52,7 +54,8 @@ bool SearchBlockPluginWidget::initSearch()
   if (stw_blockId->isActive())
   {
     bool ok = true;
-    m_searchForIds.insert(stw_blockId->getSearchText().toUInt());
+    searchedFor=QString(stw_blockId->getSearchText());
+    m_searchForIds.insert(searchedFor.toUInt());
     if (!ok)
     {
       return false;
@@ -61,6 +64,8 @@ bool SearchBlockPluginWidget::initSearch()
 
   if (stw_blockName->isActive())
   {
+    searchedFor=QString(stw_blockName->getSearchText());
+
     auto idList = BlockIdentifier::Instance().getKnownIds();
     for (auto id: idList)
     {

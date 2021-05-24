@@ -36,7 +36,8 @@ public:
 
   void clearResults();
   void addResult(const SearchResultItem &result);
-  void searchDone();
+  void searchDone(QString upname, int upradius,
+		  bool upyChecked, int upyMin, int upyMax);
 
   void setPointOfInterest(const QVector3D& centerPoint);
 
@@ -57,6 +58,9 @@ private slots:
 
 private:
   Ui::SearchResultWidget *ui;
+  QString name;
+  bool yChecked;
+  int radius, yMin, yMax;
 
   QVector3D pointOfInterest;
 

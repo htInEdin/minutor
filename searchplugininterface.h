@@ -7,6 +7,7 @@ class Chunk;
 
 class QWidget;
 class SearchResultItem;
+class QString;
 
 class SearchPluginI
 {
@@ -19,6 +20,8 @@ public:
   virtual bool initSearch() { return true; }
 
   virtual ResultListT searchChunk(Chunk &chunk) = 0;
+
+  virtual QString getSearchedFor() = 0;
 
   virtual ~SearchPluginI() {}
 };
