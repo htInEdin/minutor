@@ -32,6 +32,13 @@ SearchEntityPluginWidget::SearchEntityPluginWidget()
     stw_villager->addSuggestion(name);
   }
 
+  searchedFor = QString("[not set]");
+
+//   ui->verticalLayout->addWidget(stw_sells = new SearchTextWidget("sells"));
+//   ui->verticalLayout->addWidget(stw_buys = new SearchTextWidget("buys"));
+//   ui->verticalLayout->addWidget(stw_entityType = new SearchTextWidget("entity type"));
+//   ui->verticalLayout->addWidget(stw_villagerType = new SearchTextWidget("villager type"));
+//   ui->verticalLayout->addWidget(stw_special = new SearchTextWidget("special"));
 }
 
 SearchEntityPluginWidget::~SearchEntityPluginWidget()

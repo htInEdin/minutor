@@ -21,6 +21,8 @@ class SearchEntityPluginWidget : public QWidget, public SearchPluginI
 
   SearchPluginI::ResultListT searchChunk(const Chunk &chunk) override;
 
+  QString getSearchedFor() { return searchedFor; }
+
  private:
   QLayout* layout;
 
@@ -30,8 +32,11 @@ class SearchEntityPluginWidget : public QWidget, public SearchPluginI
   SearchTextWidget* stw_buys;
   SearchTextWidget* stw_special;
 
+  QString searchedFor;
+
   bool evaluateEntity(EntityEvaluator &entity);
   bool findBuyOrSell(EntityEvaluator& entity, SearchTextWidget &searchText, int index);
 };
+
 
 #endif // SEARCHENTITYPLUGINWIDGET_H

@@ -1,8 +1,9 @@
 TEMPLATE = app
 TARGET = minutor
-CONFIG += c++14
+CONFIG += c++14 debug
 QT += widgets network concurrent
 QMAKE_INFO_PLIST = minutor.plist
+QMAKE_CXXFLAGS += -g -ggdb -O0
 unix:LIBS += -lz
 win32:RC_FILE += winicon.rc
 macx:ICON=icon.icns

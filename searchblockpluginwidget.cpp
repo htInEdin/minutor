@@ -14,6 +14,8 @@ SearchBlockPluginWidget::SearchBlockPluginWidget(QWidget* parent)
   layout->addWidget(stw_blockId   = new SearchTextWidget("block id"));
   layout->addWidget(stw_blockName = new SearchTextWidget("block name"));
 
+  searchedFor = QString("[not set]");
+
   // add suggestions for "block name"
   auto idList = BlockIdentifier::Instance().getKnownIds();
 
@@ -48,12 +50,17 @@ bool SearchBlockPluginWidget::initSearch()
   if (stw_blockId->isActive()) {
     bool ok = true;
     m_searchForIds.insert(stw_blockId->getSearchText().toUInt());
-    if (!ok) {
+    searchedFor=QString(stw_blockId->getSearchText());
+    if (!ok)
+    {
       return false;
     }
   }
 
-  if (stw_blockName->isActive()) {
+  if (stw_blockName->isActive())
+  {
+    searchedFor=QString(stw_blockName->getSearchText());
+
     auto idList = BlockIdentifier::Instance().getKnownIds();
     for (auto id: idList) {
       auto blockInfo = BlockIdentifier::Instance().getBlockInfo(id);

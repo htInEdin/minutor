@@ -1,4 +1,5 @@
 #include "searchresultwidget.h"
+#include "searchchunkswidget.h"
 #include "ui_searchresultwidget.h"
 
 #include <QMessageBox>
@@ -73,12 +74,19 @@ void SearchResultWidget::addResult(const SearchResultItem &result)
 
 }
 
-void SearchResultWidget::searchDone()
+void SearchResultWidget::searchDone(QString upname, int upradius,
+				    bool upyChecked, int upyMin, int upyMax)
 {
   // adapt width of result columns
   for (int i = 0; i < ui->treeWidget->columnCount(); i++)
       ui->treeWidget->resizeColumnToContents(i);
   // update overlay items
+  on_check_display_all_stateChanged();
+  name=upname;
+  radius=upradius;
+  yChecked=upyChecked;
+  yMin=upyMin;
+  yMax=upyMax;
   on_check_display_all_stateChanged();
   // update search status
   updateStatusText();
@@ -177,6 +185,18 @@ void SearchResultWidget::on_saveSearchResults_clicked() {
   }
   QTextStream ts(&f);
 
+  // HST: write search metadata
+  ts << (QString("%1; type %2").arg(ui->lbl_location->text())
+	 .arg(name)) << "\n" <<
+    (QString("radius: %1; ").arg(radius)) ;
+  if (yChecked) {
+    ts << (QString("Y bounds: [%1,%2]").arg(yMin).arg(yMax));
+  }
+  else {
+    ts << "Y not bounded";
+  }
+  ts << "\n";
+	     
   // Write header.
   const QTreeWidgetItem *header = ui->treeWidget->headerItem();
   int nCol = header->columnCount();
