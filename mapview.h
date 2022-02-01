@@ -4,7 +4,8 @@
 
 #include <QtWidgets/QWidget>
 #include <QSharedPointer>
-#include "./chunkcache.h"
+#include "chunkcache.h"
+
 class DefinitionManager;
 class BiomeIdentifier;
 class BlockIdentifier;
@@ -51,11 +52,13 @@ class MapView : public QWidget {
   void clearOverlayItems();
   void setVisibleOverlayItemTypes(const QSet<QString>& itemTypes);
 
+  // HST added for use after jumpto
+  void getToolTip(int x, int z);
+
   // public for saving the png
   QString getWorldPath();
 
   void updateSearchResultPositions(const QVector<QSharedPointer<OverlayItem> > &searchResults);
-
 
  public slots:
   void setDepth(int depth);
@@ -89,7 +92,6 @@ class MapView : public QWidget {
 
  private:
   void drawChunk(int x, int z);
-  void getToolTip(int x, int z);
   int getY(int x, int z);
   QList<QSharedPointer<OverlayItem>> getItems(int x, int y, int z);
   void adjustZoom(double steps, bool allowZoomOut);

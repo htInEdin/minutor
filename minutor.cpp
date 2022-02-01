@@ -12,26 +12,27 @@
 #include <QRegExp>
 #include <QtNetwork/QNetworkRequest>
 #include <QtNetwork/QNetworkReply>
-#include "./minutor.h"
-#include "./mapview.h"
-#include "./labelledseparator.h"
-#include "./labelledslider.h"
-#include "./nbt.h"
-#include "./json.h"
-#include "./definitionmanager.h"
-#include "./entityidentifier.h"
-#include "./settings.h"
-#include "./dimensionidentifier.h"
-#include "./worldsave.h"
-#include "./properties.h"
-#include "./generatedstructure.h"
-#include "./village.h"
-#include "./jumpto.h"
-#include "./pngexport.h"
-#include "./searchchunkswidget.h"
-#include "./searchentitypluginwidget.h"
-#include "./searchblockpluginwidget.h"
-#include "./searchresultwidget.h"
+
+#include "minutor.h"
+#include "mapview.h"
+#include "labelledseparator.h"
+#include "labelledslider.h"
+#include "nbt/nbt.h"
+#include "json/json.h"
+#include "identifier/definitionmanager.h"
+#include "identifier/entityidentifier.h"
+#include "identifier/dimensionidentifier.h"
+#include "settings.h"
+#include "worldsave.h"
+#include "overlay/properties.h"
+#include "overlay/generatedstructure.h"
+#include "overlay/village.h"
+#include "jumpto.h"
+#include "pngexport.h"
+#include "search/searchchunkswidget.h"
+#include "search/searchentitypluginwidget.h"
+#include "search/searchblockpluginwidget.h"
+#include "search/searchresultwidget.h"
 
 Minutor::Minutor()
 {
@@ -156,10 +157,10 @@ void Minutor::reload() {
 
 void Minutor::save() {
   int w_top, w_left, w_right, w_bottom;
-  WorldSave::findBounds(mapview->getWorldPath(),
-                        &w_top, &w_left, &w_bottom, &w_right);
+  WorldSave::findWorldBounds(mapview->getWorldPath(),
+                             &w_top, &w_left, &w_bottom, &w_right);
   PngExport pngoptions;
-  pngoptions.setBounds(w_top, w_left, w_bottom, w_right);
+  pngoptions.setBoundsFromChunks(w_top, w_left, w_bottom, w_right);
   pngoptions.exec();
   if (pngoptions.result() == QDialog::Rejected)
     return;
@@ -428,7 +429,7 @@ void Minutor::createActions() {
 
   connect(m_ui.action_BiomeColors, SIGNAL(triggered()),
           this,                    SLOT(toggleFlags()));
-  
+
   connect(m_ui.action_SeaGround, SIGNAL(triggered()),
           this,                  SLOT(toggleFlags()));
 
@@ -560,8 +561,8 @@ QString Minutor::getWorldName(QDir path) {
 
 void Minutor::getWorldList() {
   QDir mc(dialogSettings->mcpath);
-  if (!mc.cd("saves"))
-    return;
+  if (mc.exists("saves"))
+    mc.cd("saves");
 
   QDirIterator it(mc);
   int key = 1;

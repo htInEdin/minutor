@@ -105,7 +105,10 @@ void JumpTo::updateValues(int x, int y, int z) {
 
 void JumpTo::on_pushButton_Jump_clicked()
 {
-  mapview->setLocation(ui->spinBox_Block_X->value(), ui->spinBox_Block_Y->value(), ui->spinBox_Block_Z->value(), true, ui->checkBox_Use_Y->isChecked());
+  int x = ui->spinBox_Block_X->value();
+  int z = ui->spinBox_Block_Z->value();
+  mapview->setLocation(x, ui->spinBox_Block_Y->value(), z, true, ui->checkBox_Use_Y->isChecked());
+    mapview->getToolTip(x,z);
 }
 
 void JumpTo::on_pushButton_Get_clicked()

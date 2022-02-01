@@ -1,11 +1,12 @@
 /** Copyright (c) 2013, Sean Kasun */
 
 #include <algorithm>    // std::max
+#include <typeinfo>     // typeid
 
-#include "./chunk.h"
-#include "./flatteningconverter.h"
-#include "./blockidentifier.h"
-#include "./biomeidentifier.h"
+#include "chunk.h"
+#include "identifier/flatteningconverter.h"
+#include "identifier/blockidentifier.h"
+#include "identifier/biomeidentifier.h"
 
 template<typename ValueT>
 inline void* safeMemCpy(void* dest, const std::vector<ValueT>& srcVec, size_t length)
@@ -226,6 +227,15 @@ void Chunk::loadLevelTag(const Tag * level) {
     }
   }
 
+  // parse Tile Entities in this Chunk
+  if (level->has("TileEntities")) {
+    auto nbtListBE = level->at("TileEntities");
+    auto belist    = GeneratedStructure::tryParseBlockEntites(nbtListBE);
+    for (auto it = belist.begin(); it != belist.end(); ++it) {
+      emit structureFound(*it);
+    }
+  }
+
   // parse Structures that start in this Chunk
   if (version >= 1519) {
     if (level->has("Structures")) {
@@ -290,6 +300,15 @@ void Chunk::loadCliffsCaves(const NBT &nbt) {
       } else {  // otherwise: delete cs
         delete cs;
       }
+    }
+  }
+
+  // parse Block Entities in this Chunk
+  if (nbt.has("block_entities")) {
+    auto nbtListBE = nbt.at("block_entities");
+    auto belist    = GeneratedStructure::tryParseBlockEntites(nbtListBE);
+    for (auto it = belist.begin(); it != belist.end(); ++it) {
+      emit structureFound(*it);
     }
   }
 
@@ -382,7 +401,7 @@ bool Chunk::loadSection1343(ChunkSection *cs, const Tag *section) {
 
   // check if some Block is different to minecraft:air
   bool sectionContainsData = false;
-  for (int i = 0; i < 2048; i++) {
+  for (int i = 0; i < 4096; i++) {
     sectionContainsData |= (cs->blocks[i] != 0);
   }
   return sectionContainsData;
